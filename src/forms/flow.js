@@ -65,9 +65,7 @@ export class FlowManager {
    * @param {number} currentStep
    */
   constructor(form, generateEndScreenUrl, hsConfig, currentStep) {
-    /*@__MANGLE_PROP__*/
-    this.formElement = form;
-    /*@__MANGLE_PROP__*/
+    this.elt = form;
     this.currentStep = -1;
     /*@__MANGLE_PROP__*/
     this.generateSubmissionUrl = generateEndScreenUrl;
@@ -130,13 +128,13 @@ export class FlowManager {
     // set the current step
     this.currentStep = stepIndex;
     // dispatch an event to update the UI
-    this.formElement.dispatchEvent(event);
+    this.elt.dispatchEvent(event);
   }
 
   submit() {
     const output = this.extractOutput();
     const dispatchSubmission = () => {
-      this.formElement.dispatchEvent(
+      this.elt.dispatchEvent(
         new CustomEvent("form:submit", {
           detail: output,
           bubbles: true,

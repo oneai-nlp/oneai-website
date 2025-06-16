@@ -57,7 +57,7 @@ customInputTypes["end"] = (flow, stepIndex, el) => {
     "[data-type=spinner]",
   );
   el.style.display = "none";
-  flow.formElement.addEventListener("form:submit", (e) => {
+  flow.elt.addEventListener("form:submit", (e) => {
     // @ts-ignore - this is a custom event
     flow.generateSubmissionUrl(e.detail).then((url) => {
       if ("redirect" in el.dataset) {
@@ -82,7 +82,7 @@ customInputTypes["error"] = (flow, stepIndex, el) => {
 
   el.innerText = forEl.value ? forEl.validationMessage : "";
   // add this event listener after form is initialized, to ensure that every validation message is caught
-  flow.formElement.addEventListener("form:init", () => {
+  flow.elt.addEventListener("form:init", () => {
     forEl.addEventListener("input", () => {
       el.innerText = forEl.validationMessage;
     });

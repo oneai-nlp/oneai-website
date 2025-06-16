@@ -7,18 +7,18 @@ export function bindFormUI(flow) {
   currentStepEl.type = "hidden";
   currentStepEl.name = "current-step";
   currentStepEl.value = "0";
-  flow.formElement.appendChild(currentStepEl);
+  flow.elt.appendChild(currentStepEl);
 
   // bind events
-  if (!("nokeybindings" in flow.formElement.dataset)) {
+  if (!("nokeybindings" in flow.elt.dataset)) {
     document.addEventListener("keydown", handleKeyboardEvent.bind(flow));
   }
-  flow.formElement.addEventListener("form:step", (e) => {
+  flow.elt.addEventListener("form:step", (e) => {
     currentStepEl.value = e.detail.index.toString();
     currentStepEl.dispatchEvent(new Event("change", { bubbles: true }));
     showCurrentStep.call(flow, e);
   });
-  flow.formElement.addEventListener("form:submit", (e) => {
+  flow.elt.addEventListener("form:submit", (e) => {
     currentStepEl.value = "0";
     currentStepEl.dispatchEvent(new Event("change", { bubbles: true }));
   });
@@ -70,7 +70,7 @@ function showCurrentStep(e) {
  * @param {KeyboardEvent} e
  */
 function handleKeyboardEvent(e) {
-  if (this.formElement.getBoundingClientRect().bottom < window.scrollY) return;
+  if (this.elt.getBoundingClientRect().bottom < window.scrollY) return;
   switch (e.key) {
     case "Enter":
     case "ArrowDown":

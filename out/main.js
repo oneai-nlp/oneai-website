@@ -303,7 +303,7 @@
       "[data-type=spinner]",
     );
     el.style.display = "none";
-    flow.formElement.addEventListener("form:submit", (e) => {
+    flow.elt.addEventListener("form:submit", (e) => {
       // @ts-ignore - this is a custom event
       flow.generateSubmissionUrl(e.detail).then((url) => {
         if ("redirect" in el.dataset) {
@@ -328,7 +328,7 @@
 
     el.innerText = forEl.value ? forEl.validationMessage : "";
     // add this event listener after form is initialized, to ensure that every validation message is caught
-    flow.formElement.addEventListener("form:init", () => {
+    flow.elt.addEventListener("form:init", () => {
       forEl.addEventListener("input", () => {
         el.innerText = forEl.validationMessage;
       });
@@ -336,7 +336,7 @@
   };
 
   customInputTypes["hs-scheduler"] = (flow, _stepIndex, el) => {
-    flow.formElement.addEventListener("form:submit", () => {
+    flow.elt.addEventListener("form:submit", () => {
       const script = document.createElement("script");
       script.src =
         "https://static.hsappstatic.net/MeetingsEmbed/ex/MeetingsEmbedCode.js";
@@ -345,7 +345,7 @@
       params.set("embed", "true");
       const baseURL = "https://meetings-eu1.hubspot.com/";
       const schedulerId = flow.hs.chooseScheduler(fields);
-      if (!schedulerId) flow.formElement.innerHTML = "Submission Received";
+      if (!schedulerId) flow.elt.innerHTML = "Submission Received";
       el.dataset.src = `${baseURL}${schedulerId}?${params}`;
       el.classList.add("meetings-iframe-container");
       el.innerHTML = "";
@@ -353,7 +353,7 @@
       // Listen for events from the scheduler
       window.addEventListener("message", (event) => {
         if (new URL(event.origin).host !== new URL(baseURL).host) return;
-        flow.formElement.dispatchEvent(
+        flow.elt.dispatchEvent(
           new CustomEvent("form:scheduler", { detail: event.data }),
         );
       });
@@ -514,18 +514,18 @@
     currentStepEl.type = "hidden";
     currentStepEl.name = "current-step";
     currentStepEl.value = "0";
-    flow.formElement.appendChild(currentStepEl);
+    flow.elt.appendChild(currentStepEl);
 
     // bind events
-    if (!("nokeybindings" in flow.formElement.dataset)) {
+    if (!("nokeybindings" in flow.elt.dataset)) {
       document.addEventListener("keydown", handleKeyboardEvent.bind(flow));
     }
-    flow.formElement.addEventListener("form:step", (e) => {
+    flow.elt.addEventListener("form:step", (e) => {
       currentStepEl.value = e.detail.index.toString();
       currentStepEl.dispatchEvent(new Event("change", { bubbles: true }));
       showCurrentStep.call(flow, e);
     });
-    flow.formElement.addEventListener("form:submit", (e) => {
+    flow.elt.addEventListener("form:submit", (e) => {
       currentStepEl.value = "0";
       currentStepEl.dispatchEvent(new Event("change", { bubbles: true }));
     });
@@ -577,7 +577,7 @@
    * @param {KeyboardEvent} e
    */
   function handleKeyboardEvent(e) {
-    if (this.formElement.getBoundingClientRect().bottom < window.scrollY) return;
+    if (this.elt.getBoundingClientRect().bottom < window.scrollY) return;
     switch (e.key) {
       case "Enter":
       case "ArrowDown":
@@ -697,9 +697,7 @@
      * @param {number} currentStep
      */
     constructor(form, generateEndScreenUrl, hsConfig, currentStep) {
-      /*@__MANGLE_PROP__*/
-      this.formElement = form;
-      /*@__MANGLE_PROP__*/
+      this.elt = form;
       this.currentStep = -1;
       /*@__MANGLE_PROP__*/
       this.generateSubmissionUrl = generateEndScreenUrl;
@@ -762,13 +760,13 @@
       // set the current step
       this.currentStep = stepIndex;
       // dispatch an event to update the UI
-      this.formElement.dispatchEvent(event);
+      this.elt.dispatchEvent(event);
     }
 
     submit() {
       const output = this.extractOutput();
       const dispatchSubmission = () => {
-        this.formElement.dispatchEvent(
+        this.elt.dispatchEvent(
           new CustomEvent("form:submit", {
             detail: output,
             bubbles: true,
