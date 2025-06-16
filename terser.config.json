@@ -1,0 +1,11 @@
+{
+  "compress": {
+    "reduce_funcs": false
+  },
+  "mangle": {
+    "toplevel": true,
+    "properties": {
+      "only_annotated": true
+    }
+  }
+}

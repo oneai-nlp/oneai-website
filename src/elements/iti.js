@@ -19,11 +19,15 @@ customInputTypes["iti"] = (_flow, _stepIndex, el) => {
     const initialValue = el.value;
     el.value = "";
     window.iti = window.intlTelInput(el, {
+      dropdownContainer:
+        isMobile() && el.dataset.dropdownContainer
+          ? document.querySelector(el.dataset.dropdownContainer)
+          : null,
       utilsScript:
         "https://cdn.jsdelivr.net/npm/intl-tel-input@20.0.4/build/js/utils.js",
       autoPlaceholder: "aggressive",
       initialCountry: "auto",
-      geoIpLookup: function(success) {
+      geoIpLookup: function (success) {
         fetch("https://ipapi.co/json")
           .then((response) => {
             if (response.ok) {

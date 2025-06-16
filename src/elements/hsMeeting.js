@@ -10,6 +10,7 @@ customInputTypes["hs-scheduler"] = (flow, _stepIndex, el) => {
     params.set("embed", "true");
     const baseURL = "https://meetings-eu1.hubspot.com/";
     const schedulerId = flow.hs.chooseScheduler(fields);
+    if (!schedulerId) flow.formElement.innerHTML = "Submission Received";
     el.dataset.src = `${baseURL}${schedulerId}?${params}`;
     el.classList.add("meetings-iframe-container");
     el.innerHTML = "";

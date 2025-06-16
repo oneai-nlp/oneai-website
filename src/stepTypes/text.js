@@ -20,6 +20,12 @@ function setup(step) {
  * @returns {boolean}
  */
 function validate(step) {
+  if (
+    step.querySelector(".g-recaptcha") &&
+    window.grecaptcha &&
+    !window.grecaptcha.enterprise.getResponse()
+  )
+    return false;
   /** @type {Array<HTMLInputElement>} */
   const allTextInputs = Array.from(step.querySelectorAll(textInputSelector));
   return allTextInputs.every((input) => input.validity.valid);
