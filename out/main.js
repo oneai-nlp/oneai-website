@@ -707,7 +707,6 @@
       // find steps
       const stepElements = Array.from(form.querySelectorAll("fieldset"));
       /** @type {Array<StepManager>} */
-      /*@__MANGLE_PROP__*/
       this.steps = stepElements.map((el) => new StepManager(this, el));
 
       // bind UI
