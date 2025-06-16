@@ -16,32 +16,29 @@ import { bindFormToStorage } from "./state";
  * @property {import('./hubspot').HubspotConfig} hsConfig
  */
 
+/**
+ * @typedef {Object} FormLibrary
+ * @property {FormInitializer} defaultConfig
+ */
+
 /** @param {FormInitializer} formInitializer */
 function multiStepFormInit(formInitializer) {
+  const initializer = { ...window.forms.defaultConfig, ...formInitializer };
   const storageItem = window.location.pathname.split("/").pop() + "-form-data";
-  const storage = formInitializer.storage || sessionStorage;
-  bindFormToStorage(storage, formInitializer.form, storageItem);
+  const storage = initializer.storage || sessionStorage;
+  bindFormToStorage(storage, initializer.form, storageItem);
   const state = JSON.parse(storage.getItem(storageItem) || "{}");
   const currentStep = +(state["current-step"] || 0);
   return new FlowManager(
-    formInitializer.form,
-    formInitializer.generateEndScreenUrl,
-    formInitializer.hsConfig,
+    initializer.form,
+    initializer.generateEndScreenUrl,
+    initializer.hsConfig,
     currentStep,
   );
 }
 
-// @ts-ignore
-window.multiStepFormInit = multiStepFormInit;
-// @ts-ignore
-// window.createAgent = createAgent;
-
-/**
- * TODO:
- * [ ] Hubspot slides
- * [V] Hubspot submission - requires: (1) hidden fields (2) passing portalId and formId
- * [V] multi-input-single-slide-step: ux
- * [V] contact inputs custom validation, in addition to library validation
- * [V] automatic label sync
- * [V] iti integration
- */
+/** @type {FormLibrary} */
+window.forms = {
+  init: multiStepFormInit,
+  defaultConfig: {},
+};
