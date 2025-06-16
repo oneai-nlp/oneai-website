@@ -16,11 +16,6 @@ import { bindFormToStorage } from "./state";
  * @property {import('./hubspot').HubspotConfig} hsConfig
  */
 
-/**
- * @typedef {Object} FormLibrary
- * @property {FormInitializer} defaultConfig
- */
-
 /** @param {FormInitializer} formInitializer */
 function multiStepFormInit(formInitializer) {
   const initializer = { ...window.forms.defaultConfig, ...formInitializer };
@@ -37,8 +32,23 @@ function multiStepFormInit(formInitializer) {
   );
 }
 
-/** @type {FormLibrary} */
 window.forms = {
   init: multiStepFormInit,
   defaultConfig: {},
+  flow: undefined,
 };
+
+(() => {
+  const observer = new MutationObserver(() => {
+    const el = document.querySelector("[data-form]");
+    if (el) {
+      observer.disconnect();
+      window.forms.flow = multiStepFormInit({ form: el });
+    }
+  });
+  observer.observe(document.documentElement, {
+    childList: true,
+    subtree: true,
+  });
+  document.addEventListener("DOMContentLoaded", () => observer.disconnect());
+})();
