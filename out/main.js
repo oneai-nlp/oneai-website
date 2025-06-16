@@ -28,9 +28,9 @@
       (/** @type {HTMLInputElement} */ el) => {
         el.parentElement?.classList.toggle("is-active", el.checked);
         el.addEventListener("change", () =>
-          el.parentElement?.classList.toggle("is-active", el.checked)
+          el.parentElement?.classList.toggle("is-active", el.checked),
         );
-      }
+      },
     );
   }
 
@@ -126,7 +126,7 @@
   }
 
   /**
-   * @type {import("../step.js").StepValidateFunction}
+   * @type {import("../step").StepValidateFunction}
    * @returns {boolean}
    */
   function validate(step) {
@@ -142,7 +142,7 @@
   }
 
   /**
-   * @type {import("../step.js").StepOutputFunction}
+   * @type {import("../step").StepOutputFunction}
    * @returns {string | { [key: string]: string }}
    */
   function output$1(step) {

@@ -1,4 +1,4 @@
-import { stepHandlers } from "../step";
+import { stepHandlers } from "../step.js";
 
 const textInputSelector =
   'input[type="text"], input[type="email"], input[type="tel"], input[type="url"], textarea';
@@ -16,7 +16,7 @@ function setup(step) {
 }
 
 /**
- * @type {import("../step.js").StepValidateFunction}
+ * @type {import("../step").StepValidateFunction}
  * @returns {boolean}
  */
 function validate(step) {
@@ -32,7 +32,7 @@ function validate(step) {
 }
 
 /**
- * @type {import("../step.js").StepOutputFunction}
+ * @type {import("../step").StepOutputFunction}
  * @returns {string | { [key: string]: string }}
  */
 function output(step) {

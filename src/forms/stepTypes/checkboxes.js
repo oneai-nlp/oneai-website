@@ -7,9 +7,9 @@ function setup(step) {
     (/** @type {HTMLInputElement} */ el) => {
       el.parentElement?.classList.toggle("is-active", el.checked);
       el.addEventListener("change", () =>
-        el.parentElement?.classList.toggle("is-active", el.checked)
+        el.parentElement?.classList.toggle("is-active", el.checked),
       );
-    }
+    },
   );
 }
 
