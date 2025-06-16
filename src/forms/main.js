@@ -43,7 +43,9 @@ window.forms = {
     const el = document.querySelector("form[data-form]");
     if (el) {
       observer.disconnect();
-      window.forms.flow = multiStepFormInit({ form: el });
+      requestAnimationFrame(
+        () => (window.forms.flow = multiStepFormInit({ form: el })),
+      );
     }
   });
   observer.observe(document.documentElement, {
