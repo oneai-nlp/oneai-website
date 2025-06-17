@@ -9,6 +9,7 @@
     "rollup": "npx rollup --bundleConfigAsCjs --config",
     "terser": "npx terser out/main.js -o out/main.min.js --config-file ./terser.config.json",
     "build": "npm run rollup && npm run terser",
-    "clipboard": "pbcopy < main.min.js"
+    "clipboard": "pbcopy < main.min.js",
+    "ab": "npx terser ab/ab.js -m -c --reduce-funcs -o out/ab.min.js && pbcopy < out/ab.min.js"
   }
 }

@@ -104,53 +104,7 @@
     });
   }
 
-  function triggerAgentEvent(data) {
-    fetch("https://api.oneai.com/analytics/agent", {
-      keepalive: true,
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        agent_name: "",
-        agent_id: "",
-        chat_id: "",
-        is_owner: true,
-        host_domain: "oneai.com",
-        host_path: window.location.pathname,
-        org_id: "",
-        user_id: "",
-        user_email: "",
-        user_status: "anonymous",
-        api_key: "ANONYMOUS",
-        session_id: "",
-        datetime: new Date().toISOString().split(".")[0],
-        timestamp: new Date().toISOString().split(".")[0],
-        one_id: getCookie$1("ONEAI_UNIQUE_ID"),
-        path: window.location.pathname,
-        ...data,
-        data: {
-          utm: {
-            utm_content: urlParams$1["utm_content"] || "",
-            utm_source: urlParams$1["utm_source"] || "",
-            utm_medium: urlParams$1["utm_medium"] || "",
-            utm_campaign: urlParams$1["utm_campaign"] || "",
-            utm_term: urlParams$1["utm_term"] || "",
-            groupid: urlParams$1["groupid"] || "",
-            campaignid: urlParams$1["campaignid"] || "",
-          },
-          referrer: document.referrer,
-          device: {
-            type: isMobile$1() ? "mobile" : "desktop",
-            page: window.location.pathname,
-          },
-          ...(window.version && {
-            ab_version: window.version,
-          }),
-        },
-      }),
-    });
-  }
+  function triggerAgentEvent(_) {}
 
   function triggerConversion(
     conversionId,
@@ -220,8 +174,6 @@
 
     // send VISITOR_CREATED event to MarketingWebsite dataset
     triggerEvent({ type: "VISITOR_CREATED" });
-    // send VISITOR_CREATED event to AgentUI dataset
-    triggerAgentEvent({ type: "VISITOR_CREATED" });
   });
 
   function searchEventValue(element) {
