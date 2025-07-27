@@ -131,7 +131,7 @@
         }),
       ...conversion,
     });
-    console.debug(`triggered conversion ${conversion}`);
+    console.debug(`triggered conversion ${JSON.stringify(conversion, null, 2)}`);
     return false;
   }
 
