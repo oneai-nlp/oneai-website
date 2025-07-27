@@ -37,7 +37,7 @@
     }
   }
 
-  const key = "ab" + window.location.pathname.split("/").pop();
+  const key = "ab";
   let version = {
     ...generateVersion(),
     ...(localStorage[key] && JSON.parse(localStorage[key])),

@@ -1,19 +1,19 @@
 export function triggerConversion(
-  conversionId,
+  conversion,
   callback = undefined,
   timeout = 1500,
 ) {
-  if (urlParams["utm_campaign"]?.toLowerCase().includes("remarketing")) {
-    callback();
-    return false;
-  }
   let timeoutId = undefined;
   if (callback !== undefined && timeout !== undefined) {
     timeoutId = setTimeout(callback, timeout);
   }
-  gtag("event", "conversion", {
-    send_to: `AW-10840240452/${conversionId}`,
-    event_callback:
+
+  if (typeof conversion === "string") {
+    conversion = { conversion_label: conversion };
+  }
+  window.dataLayer.push({
+    event: "conversion",
+    eventCallback:
       callback !== undefined &&
       (() => {
         if (timeoutId !== undefined) {
@@ -21,8 +21,9 @@ export function triggerConversion(
         }
         callback();
       }),
+    ...conversion,
   });
-  console.debug(`triggered conversion ${conversionId}`);
+  console.debug(`triggered conversion ${conversion}`);
   return false;
 }
 
