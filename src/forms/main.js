@@ -41,7 +41,7 @@ window.forms = {
 (() => {
   const observer = new MutationObserver(() => {
     const el = document.querySelector("form[data-form]");
-    if (el) {
+    if (el && el.querySelector("fieldset[data-step-type=end]")) {
       observer.disconnect();
       requestAnimationFrame(
         () => (window.forms.flow = multiStepFormInit({ form: el })),
