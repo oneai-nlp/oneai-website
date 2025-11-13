@@ -1142,10 +1142,19 @@
     /**
      * @param {Object.<string, number | ABVariant>} newTests
      *   - map test name to random choice from n variants (number value) or a specific variant (ABVariant value)
+     * @param {boolean} override
      */
-    register: function (newTests) {
+    register: function (newTests, override = false) {
+      if (!override) {
+        newTests = Object.fromEntries(
+          Object.entries(newTests).filter(([test]) => !(test in this.tests)),
+        );
+      }
+
       // handle existing elements
-      const selector = newTests.map((t) => `[ab-${t}]`).join(",");
+      const selector = Object.keys(newTests)
+        .map((t) => `[ab-${t}]`)
+        .join(",");
       const elements = document.querySelectorAll(selector);
       elements.forEach(handleElement);
 
