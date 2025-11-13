@@ -1169,7 +1169,7 @@
         }
         this.tests[test] = options;
       });
-      localStorage[key] = JSON.stringify(this.tests);
+      localStorage[this.key] = JSON.stringify(this.tests);
     },
     get version() {
       return Object.entries(this.tests)
@@ -1180,9 +1180,9 @@
      * @param {HTMLElement} elem
      */
     handleElement: function (elem) {
-      for (let t of Object.keys(this.tests)) {
-        const ab = elem.getAttribute("ab-" + t);
-        if (ab && ab !== version[t]) {
+      for (let [test, variant] of Object.entries(this.tests)) {
+        const ab = elem.getAttribute("ab-" + test);
+        if (ab && ab !== variant) {
           elem.remove();
           break;
         }
