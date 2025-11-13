@@ -17,7 +17,7 @@ export function triggerEvent(data) {
       device: isMobile() ? "Mobile" : "Desktop",
       one_id: getCookie("ONEAI_UNIQUE_ID"),
       path: window.location.pathname,
-      version: window.version,
+      version: window.ab.version,
       data: {
         ...d,
         os: navigator?.userAgentData?.platform || "",
