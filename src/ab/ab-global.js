@@ -83,5 +83,5 @@ const observer = new MutationObserver((mutations) => {
   });
 });
 // start observing
-observer.observe(document.body, { childList: true, subtree: true });
+observer.observe(document.documentElement, { childList: true, subtree: true });
 export default ab;
