@@ -1,3 +1,5 @@
+import { urlParams } from "./util";
+
 export function triggerConversion(
   conversion,
   callback = undefined,

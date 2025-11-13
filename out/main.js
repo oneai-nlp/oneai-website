@@ -24,7 +24,7 @@
     });
   }
 
-  const urlParams$1 = (function() {
+  const urlParams = (function() {
     const urlParams = {};
     const querystring = window.location.toString().split("#")[0].split("?");
     if (querystring.length > 1) {
@@ -93,12 +93,12 @@
           os: navigator?.userAgentData?.platform || "",
           user_agent: navigator?.userAgent || "",
           referrer: document.referrer,
-          utm_source: urlParams$1["utm_source"] || "",
-          utm_medium: urlParams$1["utm_medium"] || "",
-          utm_campaign: urlParams$1["utm_campaign"] || "",
-          utm_term: urlParams$1["utm_term"] || "",
-          groupid: urlParams$1["groupid"] || "",
-          campaignid: urlParams$1["campaignid"] || "",
+          utm_source: urlParams["utm_source"] || "",
+          utm_medium: urlParams["utm_medium"] || "",
+          utm_campaign: urlParams["utm_campaign"] || "",
+          utm_term: urlParams["utm_term"] || "",
+          groupid: urlParams["groupid"] || "",
+          campaignid: urlParams["campaignid"] || "",
         },
       }),
     });
@@ -1150,6 +1150,7 @@
           Object.entries(newTests).filter(([test]) => !(test in this.tests)),
         );
       }
+      if (!newTests) return;
 
       // handle existing elements
       const selector = Object.keys(newTests)
@@ -1193,7 +1194,7 @@
     ? JSON.parse(localStorage[ab.key])
     : {};
   const urlVersion = Object.fromEntries(
-    Object.entries(urlParams$1)
+    Object.entries(urlParams)
       .filter(([k, v]) => k.startsWith("ab-") && v.length === 1)
       .map(([k, v]) => [k.slice(3), v]),
   );
@@ -1219,7 +1220,7 @@
   window.triggerEvent = triggerEvent;
   window.triggerConversion = triggerConversion;
   window.isMobile = isMobile$1;
-  window.urlParams = urlParams$1;
+  window.urlParams = urlParams;
   window.getCookie = getCookie$1;
   window.setCookie = setCookie;
   window.getOrSetCookie = getOrSetCookie;
