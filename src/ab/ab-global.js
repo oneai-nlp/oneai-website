@@ -27,12 +27,12 @@ const ab = {
       .map((t) => `[ab-${t}]`)
       .join(",");
     const elements = document.querySelectorAll(selector);
-    elements.forEach(elem => this.handleElement(elem));
+    elements.forEach((elem) => this.handleElement(elem));
 
     // add to tests object for future elements
     Object.entries(newTests).forEach(([test, options]) => {
       if (typeof options === "number") {
-        const optionIndex = Math.floor(Math.random() * options[i]);
+        const optionIndex = Math.floor(Math.random() * options);
         options = /** @type {ABVariant} */ (
           String.fromCharCode(97 + optionIndex)
         );
