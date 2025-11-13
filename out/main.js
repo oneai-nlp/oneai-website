@@ -1150,7 +1150,7 @@
           Object.entries(newTests).filter(([test]) => !(test in this.tests)),
         );
       }
-      if (!newTests) return;
+      if (Object.keys(newTests).length === 0) return;
 
       // handle existing elements
       const selector = Object.keys(newTests)
