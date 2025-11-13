@@ -87,7 +87,7 @@
         device: isMobile$1() ? "Mobile" : "Desktop",
         one_id: getCookie$1("ONEAI_UNIQUE_ID"),
         path: window.location.pathname,
-        version: window.version,
+        version: window.ab.version,
         data: {
           ...d,
           os: navigator?.userAgentData?.platform || "",
@@ -1176,16 +1176,6 @@
         .join(";");
     },
     /**
-     * @returns {Object.<string, string>}
-     */
-    fromQueryParams: () => {
-      return Object.fromEntries(
-        Object.entries(urlParams$1)
-          .filter(([k, v]) => k.startsWith("ab-") && v.length === 1)
-          .map(([k, v]) => [k.slice(3), v]),
-      );
-    },
-    /**
      * @param {HTMLElement} elem
      */
     handleElement: function (elem) {
@@ -1199,11 +1189,18 @@
     },
   };
 
-  const initial = /** @type {ABVersion} */ ({
-    ...(localStorage[ab.key] && JSON.parse(localStorage[ab.key])),
-    ...versionFromURL(),
+  const storageVersion = localStorage[ab.key]
+    ? JSON.parse(localStorage[ab.key])
+    : {};
+  const urlVersion = Object.fromEntries(
+    Object.entries(urlParams$1)
+      .filter(([k, v]) => k.startsWith("ab-") && v.length === 1)
+      .map(([k, v]) => [k.slice(3), v]),
+  );
+  ab.register({
+    ...storageVersion,
+    ...urlVersion,
   });
-  ab.register(initial);
 
   const observer = new MutationObserver((mutations) => {
     mutations.forEach((mutation) => {

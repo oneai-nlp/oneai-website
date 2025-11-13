@@ -46,16 +46,6 @@ const ab = {
       .join(";");
   },
   /**
-   * @returns {Object.<string, string>}
-   */
-  fromQueryParams: () => {
-    return Object.fromEntries(
-      Object.entries(urlParams)
-        .filter(([k, v]) => k.startsWith("ab-") && v.length === 1)
-        .map(([k, v]) => [k.slice(3), v]),
-    );
-  },
-  /**
    * @param {HTMLElement} elem
    */
   handleElement: function (elem) {
@@ -69,11 +59,18 @@ const ab = {
   },
 };
 
-const initial = /** @type {ABVersion} */ ({
-  ...(localStorage[ab.key] && JSON.parse(localStorage[ab.key])),
-  ...versionFromURL(),
+const storageVersion = localStorage[ab.key]
+  ? JSON.parse(localStorage[ab.key])
+  : {};
+const urlVersion = Object.fromEntries(
+  Object.entries(urlParams)
+    .filter(([k, v]) => k.startsWith("ab-") && v.length === 1)
+    .map(([k, v]) => [k.slice(3), v]),
+);
+ab.register({
+  ...storageVersion,
+  ...urlVersion,
 });
-ab.register(initial);
 
 const observer = new MutationObserver((mutations) => {
   mutations.forEach((mutation) => {
