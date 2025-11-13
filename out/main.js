@@ -1157,7 +1157,7 @@
         .map((t) => `[ab-${t}]`)
         .join(",");
       const elements = document.querySelectorAll(selector);
-      elements.forEach(handleElement);
+      elements.forEach(elem => this.handleElement(elem));
 
       // add to tests object for future elements
       Object.entries(newTests).forEach(([test, options]) => {
